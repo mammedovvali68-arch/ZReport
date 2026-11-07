@@ -1,0 +1,20 @@
+name: Build ZReport
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: unzip -q ZReport.zip
+      - run: mvn -B clean package
+        working-directory: ZReport
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ZReport-jar
+          path: ZReport/target/ZReport-1.0.0.jar
